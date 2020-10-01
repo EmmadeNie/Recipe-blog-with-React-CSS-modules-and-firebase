@@ -1,0 +1,21 @@
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.Modal {
+  position: fixed;
+  z-index: 500;
+  background-color: white;
+  box-shadow: 10px 10px 10px black;
+  left: 15%;
+  top: 30%;
+  box-sizing: border-box;
+  opacity: 1;
+  transform: scale(1);
+  animation: scaleUp 0.1s ease-in;
+}

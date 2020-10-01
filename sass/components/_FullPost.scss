@@ -1,0 +1,37 @@
+.full-post {
+  width: 1000px;
+  height: 500px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex;
+
+  &__image {
+    height: 500px;
+    width: 500px;
+    float: left;
+
+    & img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: all 0.5s;
+    }
+  }
+  &__textbox {
+    width: 500px;
+    padding: 32px;
+    float: right;
+
+    & h1 {
+      font-size: 3.2rem;
+      padding-bottom: 1rem;
+    }
+
+    & p {
+      font-size: 1.6rem;
+      padding: 1rem 3rem;
+    }
+  }
+}

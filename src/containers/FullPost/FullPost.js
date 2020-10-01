@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import styles from "./FullPost.module.css";
 import image from "../../assets/images/kipburger.jpeg";
 import Axios from "axios";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import EditPost from "./EditPost/EditPost";
+import { FiEdit2 } from "react-icons/fi";
 
 class FullPost extends Component {
   state = { post: {} };
@@ -23,11 +23,11 @@ class FullPost extends Component {
     return (
       <Aux>
         {!this.props.editMode ? (
-          <div className={styles["FullPost"]}>
-            <div className={styles["Image"]}>
+          <div className="full-post">
+            <div className="full-post__image">
               <img src={image} alt="kipburger" />
             </div>
-            <div className={styles["Textbox"]}>
+            <div className="full-post__textbox">
               <h1>{this.state.post.title}</h1>
               <p>{this.state.post.author}</p>
               <p>
@@ -48,7 +48,9 @@ class FullPost extends Component {
               </p>
 
               <p>{this.state.post.description}</p>
-              <button onClick={this.props.editModeHandler}>edit post</button>
+              <button className="btn-edit" onClick={this.props.editModeHandler}>
+                <FiEdit2 color={"green"} /> <span>edit post</span>
+              </button>
             </div>
           </div>
         ) : (

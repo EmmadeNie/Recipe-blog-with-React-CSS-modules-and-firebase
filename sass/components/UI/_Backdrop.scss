@@ -5,5 +5,7 @@
   z-index: 200;
   left: o;
   top: 0;
-  background-color: rgba(0, 0, 0, 85%);
+  background-color: black;
+  opacity: 0.85;
+  animation: opacityFadein 0.2s ease-in;
 }

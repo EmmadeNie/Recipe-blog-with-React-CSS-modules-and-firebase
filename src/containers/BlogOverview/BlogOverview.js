@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import axios from "axios";
 import Post from "../../components/Post/Post";
-import styles from "./BlogOverview.module.css";
+
 import FullPost from "../FullPost/FullPost";
 import Modal from "../../components/UI/Modal/Modal";
 import AddPost from "../../components/AddPost/AddPost";
@@ -30,6 +30,7 @@ class BlogOverview extends Component {
 
   viewPostHandler = (id) => {
     this.setState({ currentPost: id });
+    this.props.history.push({ pathname: "/posts/" + id });
   };
 
   toggleEditMode = () => {
@@ -40,6 +41,7 @@ class BlogOverview extends Component {
   removeBackdropHandler = () => {
     this.setState({ currentPost: null });
     this.toggleEditMode();
+    this.props.history.push({ pathname: "/posts" });
   };
 
   editModeHandler = () => {
@@ -71,7 +73,7 @@ class BlogOverview extends Component {
     return (
       <Aux>
         {currentPost}
-        <section className={styles["Posts"]}>
+        <section className="Posts">
           {posts}
           <AddPost viewPostHandler={() => this.viewPostHandler("new-post")} />
         </section>

@@ -1,0 +1,38 @@
+.btn-edit {
+  border: none;
+  color: $color-primary-green;
+  background-color: white;
+  font-size: $default-font-size;
+
+  & span {
+    &:link,
+    &:visited {
+      font-size: $default-font-size;
+      display: inline-block;
+      text-decoration: none;
+      padding: 3px;
+      transition: all 0.2s;
+    }
+
+    &:hover,
+    &:visited {
+      font-weight: bold;
+
+      transform: translateY(-2px);
+      // font-size: $default-font-size * 1.1;
+    }
+  }
+}
+
+.Button {
+  background-color: transparent;
+  height: 16px;
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
+}
