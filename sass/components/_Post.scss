@@ -1,4 +1,4 @@
-.Post {
+.post {
   position: relative;
   width: 350px;
   background-color: rgba(250, 128, 114, 0.253);
@@ -9,56 +9,55 @@
   margin: 10px;
   box-sizing: border-box;
   cursor: pointer;
-}
 
-.Post-container {
-  height: 100%;
-  width: 100%;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
+  &--container {
+    height: 100%;
+    width: 100%;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
 
-.Image {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  transform: scale(1);
-  transition: all 0.5s;
-}
+  &__image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: all 0.5s;
+  }
 
-.Heading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -10%);
-  color: white;
-  opacity: 0;
-  transition: all 0.5s;
-  backface-visibility: hidden;
-}
+  &__textbox {
+    position: absolute;
+    font-size: $default-font-size;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    color: white;
+    opacity: 0;
+    transition: all 0.5s;
+    backface-visibility: hidden;
 
-.Post:hover .Heading {
-  opacity: 1;
-  transform: translate(-50%, -50%);
-}
+    &--author {
+      margin: 16px 0;
 
-.Post:hover .Image {
-  transform: scale(1.2);
-  filter: blur(3px) brightness(80%);
-}
+      text-decoration: underline;
+    }
+    &--content {
+      margin: 16px 0;
 
-.Post:hover,
-.Post:active {
-  background-color: #c0ddf5;
-}
+      font-style: italic;
+    }
+  }
+  &:hover .post__textbox {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 
-.Author {
-  margin: 16px 0;
+  &:hover .post__image {
+    transform: scale(1.2);
+    filter: blur(3px) brightness(80%);
+  }
 
-  text-decoration: underline;
-}
-
-.Content {
-  margin: 16px 0;
-
-  font-style: italic;
+  &:hover,
+  &:active {
+    background-color: #c0ddf5;
+  }
 }

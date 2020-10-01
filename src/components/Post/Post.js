@@ -2,16 +2,15 @@ import React from "react";
 import image from "../../assets/images/kipburger.jpeg";
 
 const post = (props) => {
-  console.log(props.post.author);
   return (
-    <article className="Post" onClick={props.viewPostHandler}>
-      <div className="Post-container">
-        <img className="Image" src={image} alt="kipburger" />
-        <div className="Heading">
+    <article className="post" onClick={props.viewPostHandler}>
+      <div className="post--container">
+        <img className="post__image" src={image} alt="kipburger" />
+        <div className="post__textbox">
           <h1>{props.post.title}</h1>
-          <div className="Info">
-            <div className="Author">{props.post.author}</div>
-            <div className="Content">{props.post.caption}</div>
+          <div className="post__textbox--container">
+            <div className="post__textbox--author">{props.post.author}</div>
+            <div className="post__textbox--content">{props.post.caption}</div>
           </div>
         </div>
       </div>
