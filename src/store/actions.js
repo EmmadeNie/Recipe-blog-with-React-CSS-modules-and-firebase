@@ -1,0 +1,3 @@
+export const TOGGLE_EDIT_MODE = "TOGGLE_EDIT_MODE";
+export const CURRENT_POST = "CURRENT_POST";
+export const REMOVE_BACKDROP = "REMOVE_BACKDROP";

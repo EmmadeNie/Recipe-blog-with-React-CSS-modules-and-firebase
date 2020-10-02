@@ -6,7 +6,7 @@ import EditPost from "./EditPost/EditPost";
 import { FiEdit2 } from "react-icons/fi";
 
 class FullPost extends Component {
-  state = { post: {} };
+  state = { post: {}, editTarget: "" };
 
   componentWillMount() {
     Axios.get(
@@ -17,45 +17,54 @@ class FullPost extends Component {
         this.setState({ loading: false });
       });
   }
+
+  // editTooltipOnMouseOver = (event) => {
+  //   this.setState({ editTarget: event.target });
+  // };
+
+  toggleEditMode = (event) => {
+    this.setState({ editTarget: event.target });
+  };
+
   render(props) {
     let editPost = <EditPost postData={this.state.post} />;
 
     return (
       <Aux>
-        {!this.props.editMode ? (
-          <div className="full-post">
-            <div className="full-post__image">
-              <img src={image} alt="kipburger" />
-            </div>
-            <div className="full-post__textbox">
-              <h1>{this.state.post.title}</h1>
-              <p>{this.state.post.author}</p>
-              <p>
-                <strong>bereiding: </strong>
-                {this.state.post.prep} min || <strong>wachten: </strong>
-                {this.state.post.cook} || <strong>personen: </strong>
-                {this.state.post.servings}
-              </p>
-              <p>
-                {" "}
-                <strong>benodigdheden: </strong>
-                {this.state.post.utensils}
-              </p>
-              <p>
-                {" "}
-                <strong>serveertips: </strong>
-                {this.state.post.servetips}
-              </p>
-
-              <p>{this.state.post.description}</p>
-              <button className="btn-edit" onClick={this.props.editModeHandler}>
-                <FiEdit2 color={"green"} /> <span>edit post</span>
-              </button>
-            </div>
+        <div className="full-post">
+          <div className="full-post__image">
+            <img src={image} alt="kipburger" />
           </div>
-        ) : (
-          <EditPost postData={this.state.post} />
-        )}
+          <div className="full-post__textbox">
+            <h1 onClick={this.toggleEditMode}>{this.state.post.title}</h1>
+            <p onMouseOver={this.editTooltipOnMouseOver}>
+              {this.state.post.author}
+            </p>
+            <p>
+              <strong>bereiding: </strong>
+              {this.state.post.prep} min || <strong>wachten: </strong>
+              {this.state.post.cook} || <strong>personen: </strong>
+              {this.state.post.servings}
+            </p>
+            <p>
+              {" "}
+              <strong>benodigdheden: </strong>
+              {this.state.post.utensils}
+            </p>
+            <p>
+              {" "}
+              <strong>serveertips: </strong>
+              {this.state.post.servetips}
+            </p>
+
+            <p>{this.state.post.description}</p>
+
+            <button className="btn-edit" onClick={this.props.editModeHandler}>
+              <FiEdit2 color={"green"} /> <span>edit post</span>
+            </button>
+            {this.props.editMode ? <p>Hello</p> : <p>What?</p>}
+          </div>
+        </div>
       </Aux>
     );
   }

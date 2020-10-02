@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import axios from "axios";
 import Post from "../../components/Post/Post";
-
 import FullPost from "../FullPost/FullPost";
 import Modal from "../../components/UI/Modal/Modal";
 import AddPost from "../../components/AddPost/AddPost";
+import * as actionTypes from "../../store/actions";
 
 class BlogOverview extends Component {
   state = { posts: [], currentPost: null, editMode: false };
@@ -28,16 +29,6 @@ class BlogOverview extends Component {
       });
   }
 
-  viewPostHandler = (id) => {
-    this.setState({ currentPost: id });
-    this.props.history.push({ pathname: "/posts/" + id });
-  };
-
-  toggleEditMode = () => {
-    const edit = this.state.editMode;
-    this.setState({ editMode: !edit });
-  };
-
   removeBackdropHandler = () => {
     this.setState({ currentPost: null });
     this.toggleEditMode();
@@ -47,25 +38,25 @@ class BlogOverview extends Component {
   editModeHandler = () => {
     this.toggleEditMode();
   };
-  render() {
+  render(props) {
     let posts = this.state.posts.map((post) => {
       return (
         <Post
           style={{ textAlign: "center" }}
           post={post}
           key={post.id}
-          viewPostHandler={() => this.viewPostHandler(post.id)}
+          viewPostHandler={() => this.props.viewCurrentPost(post.id)}
         />
       );
     });
 
-    let currentPost = this.state.currentPost && (
-      <Modal removeBackdrop={this.removeBackdropHandler}>
+    let currentPost = this.props.currentPost && (
+      <Modal removeBackdrop={this.props.removeBackdrop}>
         <FullPost
-          currentId={this.state.currentPost}
+          currentId={this.props.currentPost}
           postData={this.state}
-          editModeHandler={this.editModeHandler}
-          editMode={this.state.editMode}
+          editModeHandler={this.props.toggleEditMode}
+          editMode={this.props.editMode}
         />
       </Modal>
     );
@@ -82,4 +73,20 @@ class BlogOverview extends Component {
   }
 }
 
-export default BlogOverview;
+const mapStateToProps = (state) => {
+  return {
+    currentPost: state.currentPost,
+    editMode: state.editMode,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleEditMode: () => dispatch({ type: actionTypes.TOGGLE_EDIT_MODE }),
+    viewCurrentPost: (id) =>
+      dispatch({ type: actionTypes.CURRENT_POST, postId: id }),
+    removeBackdrop: () => dispatch({ type: actionTypes.REMOVE_BACKDROP }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlogOverview);
