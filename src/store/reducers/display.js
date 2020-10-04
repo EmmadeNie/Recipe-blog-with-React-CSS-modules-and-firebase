@@ -1,4 +1,4 @@
-import * as actionTypes from "../actions";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   currentPost: null,
@@ -9,7 +9,7 @@ const displayReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_EDIT_MODE:
       return { ...state, editMode: !state.editMode };
-    case actionTypes.CURRENT_POST:
+    case actionTypes.VIEW_CURRENT_POST:
       return { ...state, currentPost: action.postId };
     case actionTypes.REMOVE_BACKDROP:
       return { currentPost: null, editMode: false };

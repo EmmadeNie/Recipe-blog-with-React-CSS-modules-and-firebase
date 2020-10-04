@@ -1,13 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./style.css";
 import displayReducer from "./store/reducers/display";
+// import postsReducer from "./store/reducers/post";
 
-const store = createStore(displayReducer);
+const rootReducer = combineReducers({
+  display: displayReducer,
+});
+
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
   <React.StrictMode>

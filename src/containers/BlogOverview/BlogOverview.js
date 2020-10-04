@@ -6,7 +6,7 @@ import Post from "../../components/Post/Post";
 import FullPost from "../FullPost/FullPost";
 import Modal from "../../components/UI/Modal/Modal";
 import AddPost from "../../components/AddPost/AddPost";
-import * as actionTypes from "../../store/actions";
+import * as actionCreators from "../../store/actions/index";
 
 class BlogOverview extends Component {
   state = { posts: [], currentPost: null, editMode: false };
@@ -29,15 +29,6 @@ class BlogOverview extends Component {
       });
   }
 
-  removeBackdropHandler = () => {
-    this.setState({ currentPost: null });
-    this.toggleEditMode();
-    this.props.history.push({ pathname: "/posts" });
-  };
-
-  editModeHandler = () => {
-    this.toggleEditMode();
-  };
   render(props) {
     let posts = this.state.posts.map((post) => {
       return (
@@ -45,17 +36,17 @@ class BlogOverview extends Component {
           style={{ textAlign: "center" }}
           post={post}
           key={post.id}
-          viewPostHandler={() => this.props.viewCurrentPost(post.id)}
+          viewPostHandler={() => this.props.onViewCurrentPost(post.id)}
         />
       );
     });
 
     let currentPost = this.props.currentPost && (
-      <Modal removeBackdrop={this.props.removeBackdrop}>
+      <Modal removeBackdrop={this.props.onRemoveBackdrop}>
         <FullPost
           currentId={this.props.currentPost}
           postData={this.state}
-          editModeHandler={this.props.toggleEditMode}
+          editModeHandler={this.props.onToggleEditMode}
           editMode={this.props.editMode}
         />
       </Modal>
@@ -75,17 +66,16 @@ class BlogOverview extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentPost: state.currentPost,
-    editMode: state.editMode,
+    currentPost: state.display.currentPost,
+    editMode: state.display.editMode,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toggleEditMode: () => dispatch({ type: actionTypes.TOGGLE_EDIT_MODE }),
-    viewCurrentPost: (id) =>
-      dispatch({ type: actionTypes.CURRENT_POST, postId: id }),
-    removeBackdrop: () => dispatch({ type: actionTypes.REMOVE_BACKDROP }),
+    onToggleEditMode: () => dispatch(actionCreators.toggleEditMode()),
+    onViewCurrentPost: (id) => dispatch(actionCreators.viewCurrentPost(id)),
+    onRemoveBackdrop: () => dispatch(actionCreators.removeBackdrop()),
   };
 };
 
