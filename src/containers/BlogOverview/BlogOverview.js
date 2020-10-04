@@ -12,25 +12,11 @@ class BlogOverview extends Component {
   state = { posts: [], currentPost: null, editMode: false };
 
   componentDidMount() {
-    axios
-      .get("https://blog-5c8a0.firebaseio.com/posts.json")
-      .then((res) => {
-        const fetchedPosts = [];
-        for (let key in res.data) {
-          fetchedPosts.push({
-            ...res.data[key],
-            id: key,
-          });
-        }
-        this.setState({ loading: false, posts: fetchedPosts });
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-      });
+    this.props.onInitPosts();
   }
 
   render(props) {
-    let posts = this.state.posts.map((post) => {
+    let posts = this.props.posts.map((post) => {
       return (
         <Post
           style={{ textAlign: "center" }}
@@ -66,6 +52,7 @@ class BlogOverview extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    posts: state.posts.posts,
     currentPost: state.display.currentPost,
     editMode: state.display.editMode,
   };
@@ -76,6 +63,7 @@ const mapDispatchToProps = (dispatch) => {
     onToggleEditMode: () => dispatch(actionCreators.toggleEditMode()),
     onViewCurrentPost: (id) => dispatch(actionCreators.viewCurrentPost(id)),
     onRemoveBackdrop: () => dispatch(actionCreators.removeBackdrop()),
+    onInitPosts: () => dispatch(actionCreators.initPosts()),
   };
 };
 

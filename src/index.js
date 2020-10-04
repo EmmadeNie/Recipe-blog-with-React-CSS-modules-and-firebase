@@ -1,22 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./style.css";
 import displayReducer from "./store/reducers/display";
-// import postsReducer from "./store/reducers/post";
+import postsReducer from "./store/reducers/posts";
 
 const rootReducer = combineReducers({
   display: displayReducer,
+  posts: postsReducer,
 });
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(applyMiddleware(thunk))
 );
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
