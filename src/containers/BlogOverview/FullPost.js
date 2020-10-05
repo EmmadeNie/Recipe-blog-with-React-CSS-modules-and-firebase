@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import image from "../../assets/images/kipburger.jpeg";
 import Axios from "axios";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
-import EditPost from "./EditPost/EditPost";
+import EditPost from "./EditPost";
 import { FiEdit2 } from "react-icons/fi";
 
 class FullPost extends Component {

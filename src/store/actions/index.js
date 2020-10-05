@@ -1,8 +1,7 @@
+export { initPosts, setPosts, failedFetchingPosts, setLoading } from "./posts";
+
 export {
   toggleEditMode,
   viewCurrentPost,
   removeBackdrop,
-  initPosts,
-  setPosts,
-  failedFetchingPosts,
-} from "../actions/blogOverview";
+} from "../actions/display";

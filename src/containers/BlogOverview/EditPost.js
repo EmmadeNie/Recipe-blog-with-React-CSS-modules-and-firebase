@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./EditPost.module.css";
-import image from "../../../assets/images/kipburger.jpeg";
+import image from "../../assets/images/kipburger.jpeg";
 import Axios from "axios";
 
 class EditPost extends Component {
