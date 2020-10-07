@@ -4,6 +4,12 @@
   100% {
     opacity: 1; } }
 
+@keyframes moveDown {
+  0% {
+    translate: transformX(10rem, 0); }
+  100% {
+    translate: transformX(0, 0); } }
+
 *,
 *::after,
 *::before {
@@ -65,34 +71,6 @@ body {
   .post:hover, .post:active {
     background-color: #c0ddf5; }
 
-.full-post {
-  width: 1000px;
-  height: 500px;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  display: flex; }
-  .full-post__image {
-    height: 500px;
-    width: 500px;
-    float: left; }
-    .full-post__image img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      transform: scale(1);
-      transition: all 0.5s; }
-  .full-post__textbox {
-    width: 500px;
-    padding: 32px;
-    float: right; }
-    .full-post__textbox h1 {
-      font-size: 3.2rem;
-      padding-bottom: 1rem; }
-    .full-post__textbox p {
-      font-size: 1.6rem;
-      padding: 1rem 3rem; }
-
 .btn-edit {
   border: none;
   color: green;
@@ -119,6 +97,12 @@ body {
   padding: 10px;
   margin: 10px;
   font-weight: bold; }
+
+.infront-image {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  bottom: 4rem; }
 
 .Backdrop {
   width: 100%;
@@ -212,6 +196,14 @@ body {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 
+.Updated {
+  width: 93%;
+  font-size: 1.6rem;
+  margin-left: 2rem;
+  padding: 1rem;
+  background-color: lightgreen;
+  animation: moveDown 1s; }
+
 .nav {
   margin: 0;
   padding: 0;
@@ -255,5 +247,42 @@ body {
   display: flex;
   flex-flow: row wrap;
   justify-content: left;
-  width: 1200px;
+  width: 1150px;
   margin: auto; }
+
+.full-post {
+  width: 1000px;
+  height: 500px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex; }
+  .full-post__image {
+    position: relative;
+    height: 500px;
+    width: 500px;
+    float: left; }
+    .full-post__image img {
+      position: absolute;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: all 0.5s;
+      z-index: 1; }
+    .full-post__image button {
+      position: absolute;
+      z-index: 2;
+      right: 1rem;
+      bottom: 1rem; }
+  .full-post__textbox {
+    width: 500px;
+    padding: 32px;
+    float: right; }
+    .full-post__textbox h1 {
+      font-size: 3.2rem;
+      padding-bottom: 1rem; }
+    .full-post__textbox p {
+      font-size: 1.6rem;
+      padding: 1rem 3rem; }

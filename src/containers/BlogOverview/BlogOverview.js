@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
-import axios from "axios";
 import Post from "../../components/Post/Post";
 import FullPost from "./FullPost";
 import Modal from "../../components/UI/Modal/Modal";
-import AddPost from "../../components/AddPost/AddPost";
+
 import * as actionCreators from "../../store/actions/index";
-import Spinner from "../../components/UI/Spinner";
+
+import Updated from "../../components/UI/Updated";
 
 class BlogOverview extends Component {
   componentDidMount() {
@@ -44,7 +44,12 @@ class BlogOverview extends Component {
     return (
       <Aux>
         {currentPost}
-        <section className="Posts">{posts}</section>
+        <section className="Posts">
+          {this.props.postAdded && (
+            <Updated newest={this.props.posts[0].title} />
+          )}
+          {posts}
+        </section>
       </Aux>
     );
   }
@@ -56,6 +61,7 @@ const mapStateToProps = (state) => {
     currentPost: state.display.currentPost,
     editMode: state.display.editMode,
     isLoading: state.display.isLoading,
+    postAdded: state.posts.postAdded,
   };
 };
 

@@ -10,7 +10,8 @@ const post = (props) => {
           <h1>{props.post.title}</h1>
           <div className="post__textbox--container">
             <div className="post__textbox--author">{props.post.author}</div>
-            <div className="post__textbox--content">{props.post.caption}</div>
+            <div className="post__textbox--content">{props.post.sequence}</div>
+            <div className="post__textbox--content">{props.post.date}</div>
           </div>
         </div>
       </div>

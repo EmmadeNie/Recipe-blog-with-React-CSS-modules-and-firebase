@@ -8,13 +8,15 @@
 @import "base/utilities";
 
 @import "components/Post";
-@import "components/FullPost";
+
 @import "components/Button";
 @import "components/UI/Backdrop";
 @import "components/UI/Modal";
 @import "components/UI/Spinner";
+@import "components/UI/Updated";
 
 @import "layout/NavigationItems";
 @import "layout/Layout";
 
 @import "pages/BlogOverview";
+@import "pages/FullPost";

@@ -1,11 +1,15 @@
 import React from "react";
-
-import plus from "../../../assets/images/plus.png";
+import { FiEdit2, FiCheck } from "react-icons/fi";
 
 const button = (props) => {
   return (
-    <button className="Button" onClick={props.clicked}>
-      <img src={plus} style={{ height: "64px" }} alt="myBurger" />
+    <button className="btn-edit" onClick={props.handleOnClick}>
+      <span> {props.text}</span>
+      {props.icon === "FiEdit2" ? (
+        <FiEdit2 color={"green"} />
+      ) : (
+        <FiCheck color={"green"} />
+      )}
     </button>
   );
 };

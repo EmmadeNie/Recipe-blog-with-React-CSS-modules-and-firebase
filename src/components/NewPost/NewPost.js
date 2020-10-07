@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router";
 import styles from "./NewPost.module.css";
-import axios from "axios";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
+import * as actionCreators from "../../store/actions/index";
+import Spinner from "../UI/Spinner";
 
 class NewPost extends Component {
   state = {
@@ -162,7 +165,7 @@ class NewPost extends Component {
 
     console.log(imageData);
 
-    const post = {
+    const postInfo = {
       title: this.state.postForm.title.value,
       caption: this.state.postForm.caption.value,
       author: this.state.postForm.author.value,
@@ -171,13 +174,18 @@ class NewPost extends Component {
       cook: this.state.postForm.cook.value,
       servings: this.state.postForm.servings.value,
       ingredients: this.state.postForm.ingredients.value,
+      utensils: this.state.postForm.utensils.value,
       image: imageData,
+      date: new Date(),
+      sequence: this.props.posts.length + 1,
     };
-    axios
-      .post("https://blog-5c8a0.firebaseio.com/posts.json", post)
-      .then((response) => {
-        console.log("pink", response);
-      });
+    // axios
+    //   .post("https://blog-5c8a0.firebaseio.com/posts.json", post)
+    //   .then((response) => {
+    //     console.log("pink", response);
+    //   });
+
+    this.props.onNewPost(postInfo);
   };
 
   inputChangedHandler = (event, inputIdentifier) => {
@@ -223,7 +231,9 @@ class NewPost extends Component {
       }
     };
 
-    let form = (
+    let form = this.props.postAdded ? (
+      <Redirect to="/" />
+    ) : (
       <form onSubmit={this.postDataHandler} className={styles["ContactData"]}>
         {formElementsArray.map((formElement) => (
           <Input
@@ -241,12 +251,30 @@ class NewPost extends Component {
       </form>
     );
 
-    // if (this.state.loading) {
-    //   form = <Spinner />;
+    if (this.state.loading) {
+      form = <Spinner />;
+    }
+
+    // if (this.props.postAdded) {
+    //   form = <Redirect to="/" />;
     // }
 
     return <Aux>{form}</Aux>;
   }
 }
 
-export default NewPost;
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.posts.isLoading,
+    postAdded: state.posts.postAdded,
+    posts: state.posts.posts,
+  };
+};
+
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    onNewPost: (postInfo) => dispatch(actionCreators.newPost(postInfo)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchtoProps)(NewPost);

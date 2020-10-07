@@ -36,3 +36,10 @@
   margin: 10px;
   font-weight: bold;
 }
+
+.infront-image {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  bottom: 4rem;
+}

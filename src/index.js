@@ -8,10 +8,12 @@ import * as serviceWorker from "./serviceWorker";
 import "./style.css";
 import displayReducer from "./store/reducers/display";
 import postsReducer from "./store/reducers/posts";
+import fullPostReducer from "./store/reducers/fullPost";
 
 const rootReducer = combineReducers({
   display: displayReducer,
   posts: postsReducer,
+  fullPost: fullPostReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

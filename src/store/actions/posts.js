@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 
-export const setPosts = (posts) => {
-  return { type: actionTypes.SET_POSTS, posts: posts };
+// GET ALL POSTS
+export const setPosts = (posts, seq) => {
+  return { type: actionTypes.SET_POSTS, posts: posts, sequence: seq };
 };
 
 export const failedFetchingPosts = () => {
@@ -33,3 +34,42 @@ export const initPosts = () => {
       });
   };
 };
+
+// NEW POST
+export const newPostSuccess = (postInfo) => {
+  return {
+    type: actionTypes.NEW_POST_SUCCESS,
+    postInfo: { ...postInfo },
+  };
+};
+
+export const newPostFail = (error) => {
+  return { type: actionTypes.NEW_POST_FAIL, error: error };
+};
+
+export const newPostStart = () => {
+  return { type: actionTypes.NEW_POST_START };
+};
+
+export const newPost = (postInfo) => {
+  return (dispatch) => {
+    dispatch(newPostStart());
+    axios
+      .post("https://blog-5c8a0.firebaseio.com/posts.json", postInfo)
+      .then((response) => {
+        dispatch(newPostSuccess(postInfo));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(newPostFail(error));
+      });
+  };
+};
+
+export const newPostInit = () => {
+  return {
+    type: actionTypes.NEW_POST_INIT,
+  };
+};
+
+//UPDATE POSTS

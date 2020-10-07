@@ -7,16 +7,26 @@
   display: flex;
 
   &__image {
+    position: relative;
     height: 500px;
     width: 500px;
     float: left;
 
     & img {
+      position: absolute;
+      left: 0;
       height: 100%;
       width: 100%;
       object-fit: cover;
       transform: scale(1);
       transition: all 0.5s;
+      z-index: 1;
+    }
+    & button {
+      position: absolute;
+      z-index: 2;
+      right: 1rem;
+      bottom: 1rem;
     }
   }
   &__textbox {
