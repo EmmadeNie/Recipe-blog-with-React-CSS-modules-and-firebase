@@ -29,6 +29,10 @@
       bottom: 1rem;
     }
   }
+
+  &description--edit-mode {
+    min-width: 300px;
+  }
   &__textbox {
     width: 500px;
     padding: 32px;

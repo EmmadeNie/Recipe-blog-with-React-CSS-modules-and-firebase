@@ -144,26 +144,23 @@ class NewPost extends Component {
         },
         valid: false,
       },
+      tags: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "add tag",
+        },
+        value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
+      },
     },
   };
 
   postDataHandler = (event) => {
     event.preventDefault();
-    console.log("ping", this.state.postForm);
-
-    function ImageData(type, value, name) {
-      this.type = type;
-      this.value = value;
-      this.name = name;
-    }
-
-    const imageData = new ImageData(
-      "image",
-      this.state.postForm.image.value,
-      this.state.postForm.image.value.name
-    );
-
-    console.log(imageData);
 
     const postInfo = {
       title: this.state.postForm.title.value,
@@ -175,15 +172,10 @@ class NewPost extends Component {
       servings: this.state.postForm.servings.value,
       ingredients: this.state.postForm.ingredients.value,
       utensils: this.state.postForm.utensils.value,
-      image: imageData,
+      tags: [this.state.postForm.tags.value],
       date: new Date(),
       sequence: this.props.posts.length + 1,
     };
-    // axios
-    //   .post("https://blog-5c8a0.firebaseio.com/posts.json", post)
-    //   .then((response) => {
-    //     console.log("pink", response);
-    //   });
 
     this.props.onNewPost(postInfo);
   };
@@ -196,19 +188,6 @@ class NewPost extends Component {
       ...updatedPostForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
-    updatedPostForm[inputIdentifier] = updatedFormElement;
-    this.setState({ postForm: updatedPostForm });
-  };
-
-  handleFile = (event, inputIdentifier) => {
-    console.log(event.target.files[0]);
-    const updatedPostForm = {
-      ...this.state.postForm,
-    };
-    const updatedFormElement = {
-      ...updatedPostForm[inputIdentifier],
-    };
-    updatedFormElement.value = event.target.files[0];
     updatedPostForm[inputIdentifier] = updatedFormElement;
     this.setState({ postForm: updatedPostForm });
   };
@@ -254,11 +233,6 @@ class NewPost extends Component {
     if (this.state.loading) {
       form = <Spinner />;
     }
-
-    // if (this.props.postAdded) {
-    //   form = <Redirect to="/" />;
-    // }
-
     return <Aux>{form}</Aux>;
   }
 }
