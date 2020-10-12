@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {useState} from "react";
 import { Redirect } from "react-router";
 import styles from "./NewPost.module.css";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
-import * as actionCreators from "../../store/actions/index";
-import Spinner from "../UI/Spinner";
 
-class NewPost extends Component {
-  state = {
-    postForm: {
+import Spinner from "../UI/Spinner"
+
+function NewPost () {
+ const [isLoading, setIsLoading] = useState(false)
+ const [postAdded, setPostAdded]= useState(false)
+    const [postForm, setPostForm] = useState( {
       title: {
         elementType: "input",
         elementConfig: {
@@ -157,98 +157,94 @@ class NewPost extends Component {
         valid: false,
       },
     },
-  };
+    )
 
-  postDataHandler = (event) => {
+const postDataHandler = (event) => {
     event.preventDefault();
+setIsLoading(true);
 
     const postInfo = {
-      title: this.state.postForm.title.value,
-      caption: this.state.postForm.caption.value,
-      author: this.state.postForm.author.value,
-      description: this.state.postForm.description.value,
-      prep: this.state.postForm.prep.value,
-      cook: this.state.postForm.cook.value,
-      servings: this.state.postForm.servings.value,
-      ingredients: this.state.postForm.ingredients.value,
-      utensils: this.state.postForm.utensils.value,
-      tags: [this.state.postForm.tags.value],
+      title: postForm.title.value,
+      caption: postForm.caption.value,
+      author: postForm.author.value,
+      description: postForm.description.value,
+      prep: postForm.prep.value,
+      cook: postForm.cook.value,
+      servings: postForm.servings.value,
+      ingredients: postForm.ingredients.value,
+      utensils: postForm.utensils.value,
+      tags: [postForm.tags.value],
       date: new Date(),
-      sequence: this.props.posts.length + 1,
     };
 
-    this.props.onNewPost(postInfo);
-  };
+    fetch("https://blog-5c8a0.firebaseio.com/posts.json", {
+      method: "post",
+      body: JSON.stringify(postInfo),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+setIsLoading(false)
+setPostAdded(true);
+        return response.json();
+      })
+      .then((res) => console.log(res)).catch(error=> setIsLoading(false))
+  }
+ 
 
-  inputChangedHandler = (event, inputIdentifier) => {
+  const inputChangedHandler = (event, inputIdentifier) => {
+  
     const updatedPostForm = {
-      ...this.state.postForm,
+      ...postForm,
     };
     const updatedFormElement = {
       ...updatedPostForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
     updatedPostForm[inputIdentifier] = updatedFormElement;
-    this.setState({ postForm: updatedPostForm });
+    setPostForm(updatedPostForm );
   };
 
-  render() {
+
     const formElementsArray = [];
 
-    for (let key in this.state.postForm) {
+    for (let key in postForm) {
       formElementsArray.push({
         id: key,
-        config: this.state.postForm[key],
+        config: postForm[key],
       });
     }
 
-    const handleType = (configType, formElementId) => {
-      if (configType === "file") {
-        return (event) => this.handleFile(event, formElementId);
-      } else {
-        return (event) => this.inputChangedHandler(event, formElementId);
-      }
-    };
+    // const handleType = (configType, formElementId) => {
+    //   if (configType === "file") {
+    //     return (event) => handleFile(event, formElementId);
+    //   } else {
+    //     return (event) => inputChangedHandler(event, formElementId);
+    //   }
+    // };
+    
 
-    let form = this.props.postAdded ? (
-      <Redirect to="/" />
-    ) : (
-      <form onSubmit={this.postDataHandler} className={styles["ContactData"]}>
+    let form = postAdded ? <Redirect to="/" />  : (<form onSubmit={postDataHandler} className={styles["ContactData"]}>
         {formElementsArray.map((formElement) => (
           <Input
             key={formElement.id}
             elementType={formElement.config.elementType}
             elementConfig={formElement.config.elementConfig}
             value={formElement.config.value}
-            changed={handleType(
-              formElement.config.elementConfig.type,
+            changed={(event)=> inputChangedHandler(event,
               formElement.id
             )}
           />
         ))}
         <Button btnType="Success">Continue</Button>
-      </form>
-    );
+      </form>)
 
-    if (this.state.loading) {
+     if (isLoading) {
       form = <Spinner />;
     }
+
     return <Aux>{form}</Aux>;
   }
-}
 
-const mapStateToProps = (state) => {
-  return {
-    isLoading: state.posts.isLoading,
-    postAdded: state.posts.postAdded,
-    posts: state.posts.posts,
-  };
-};
 
-const mapDispatchtoProps = (dispatch) => {
-  return {
-    onNewPost: (postInfo) => dispatch(actionCreators.newPost(postInfo)),
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchtoProps)(NewPost);
+export default NewPost

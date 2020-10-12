@@ -1,19 +1,31 @@
 import React, { useEffect, useContext } from "react";
 
 //CONTAINERS
-import FullPost from "./FullPost";
+import FullPost from "../containers/BlogOverview/FullPost";
 
 //COMPONENTS
-import Aux from "../../hoc/Auxiliary/Auxiliary";
-import Post from "../../components/Post/Post";
-import Updated from "../../components/UI/Updated";
-import Modal from "../../components/UI/Modal/Modal";
-import {DisplayContext} from "../../context/display-context"
-import {PostsContext} from "../../context/posts-context"
+import Aux from "../hoc/Auxiliary/Auxiliary";
+import Post from "../components/Post/Post";
+import Updated from "../components/UI/Updated";
+import Modal from "../components/UI/Modal/Modal";
+import {DisplayContext} from "../context/display-context"
+import {PostsContext} from "../context/posts-context"
 
-function BlogOverview(props) {
+function TagCategory(props) {
   const displayContext = useContext(DisplayContext);
   const postsContext = useContext(PostsContext);
+
+ function postHasTag (){
+     return 
+ }
+
+  const relatedPosts = postsContext.posts.map(post=>post.tags)
+
+  const relatedPosts2 = postsContext.posts.filter(post=>post.tags.includes(props.tag))
+
+  console.log("lolo", relatedPosts2, props.tag, relatedPosts)
+
+
 
   useEffect(() => {
     postsContext.getPosts()
@@ -50,6 +62,7 @@ function BlogOverview(props) {
 
   return (
     <Aux>
+    <h1>{props.tag}</h1>
     {displayContext.postDeleted && <Updated text="post deleted"/>}
       {currentFullPost}
       <section className="Posts">{postList}</section>
@@ -57,4 +70,4 @@ function BlogOverview(props) {
   );
 }
 
-export default BlogOverview;
+export default TagCategory

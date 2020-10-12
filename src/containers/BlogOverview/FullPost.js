@@ -1,8 +1,9 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer, useEffect, useState, useContext } from "react";
 import image from "../../assets/images/kipburger.jpeg";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import Button from "../../components/UI/Button/Button";
 import Tag from "../../components/UI/tag"
+import {DisplayContext} from "../../context/display-context"
 
 const postReducer = (state, action) => {
   switch (action.type) {
@@ -16,9 +17,20 @@ const postReducer = (state, action) => {
 };
 
 function FullPost(props) {
+  const displayContext = useContext(DisplayContext);
+
   const [post, dispatch] = useReducer(postReducer, {});
   const [tagMode, setTagMode] = useState(false);
   const [newTag, setNewTag] = useState("");
+  const [postDescription, setPostDescription] = useState('')
+  
+    const onDeletePostHandler = () => {
+    displayContext.updateCurrentPost(null);
+    displayContext.togglePostDeleted(true);
+    displayContext.toggleEditMode(false);
+
+  }
+  
 
   useEffect(() => {
     fetch(`https://blog-5c8a0.firebaseio.com/posts/${props.currentId}.json`)
@@ -37,6 +49,26 @@ function FullPost(props) {
     setNewTag(newValue);
   };
 
+  const onChangePostDescriptionHandler = (newValue)=>{
+    setPostDescription(newValue)
+    
+  }
+ 
+  const onSavePost = ()=>{
+    displayContext.toggleEditMode(false);
+     
+    const updatedPost = { ...post, description: postDescription };
+    fetch(`https://blog-5c8a0.firebaseio.com/posts/${props.currentId}.json`, {
+      method: "put",
+      body: JSON.stringify(updatedPost),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((res) => dispatch({ type: "SET_FULLPOST", fullPost: res }));
+  }
+
   const onSubmitTag = () => {
     onToggleTagMode();
     const tags = post.tags.concat(newTag);
@@ -52,17 +84,24 @@ function FullPost(props) {
       .then((res) => dispatch({ type: "SET_FULLPOST", fullPost: res }));
   };
 
-  let description = props.editMode ? (
+    const onDeletePost = ()=> { fetch(`https://blog-5c8a0.firebaseio.com/posts/${props.currentId}.json`, {
+      method: "delete",
+    })
+      .then((response) => {
+        onDeletePostHandler()
+        return response.json();
+      })
+      .then((res) => console.log(res))}
+
+  let description = displayContext.editMode ? (
     <textarea
       className="full-post__description--edit-mode"
-      onChange={(event) => onChangeTagHandler(event.target.value)}
+      onChange={(event) => onChangePostDescriptionHandler(event.target.value)}
       defaultValue={post.description}
     />
   ) : (
     <p>{post.description}</p>
   );
-
-
 
   return (
     <Aux>
@@ -93,7 +132,7 @@ function FullPost(props) {
         <div className="full-post__textbox">
           <h1>{post.title}</h1>
           <p>{post.author}</p>
-{post.tags && post.tags.map(tag=><Tag text={tag}/>)}
+{post.tags && post.tags.map(tag=><Tag key={tag.indexOf()} text={tag}/>)}
           <p>
             <strong>bereiding: </strong>
             {post.prep} min || <strong>wachten: </strong>
@@ -111,14 +150,18 @@ function FullPost(props) {
             {post.servetips}
           </p>
 
-          {description}
-
+          {description}<br></br>
+ {displayContext.editMode && <Aux><Button
+            icon="FiX"
+            text="delete post"
+            handleOnClick={onDeletePost}
+          /> <span>   |   </span></Aux>}
           <Button
             icon="FiEdit2"
-            text="edit posts"
-            handleOnClick={props.editModeHandler}
+            text={displayContext.editMode ? "save post" : "edit post"}
+            handleOnClick={displayContext.editMode? onSavePost : displayContext.toggleEditMode}
           />
-          {props.editMode ? <p>Hello</p> : <p>What?</p>}
+          {displayContext.editMode ? <p>Hello</p> : <p>What?</p>}
         </div>
       </div>
     </Aux>
