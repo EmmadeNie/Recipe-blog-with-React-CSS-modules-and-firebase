@@ -18,6 +18,7 @@ const postsReducer = (currentPosts, action) => {
 
 const PostsContextProvider = props => {
     const [postsData, dispatch] = useReducer(postsReducer, []);
+    const [postTags, dispatchTags] = useReducer(postsReducer, []);
      const displayContext = useContext(DisplayContext);
 
     const getPostsHandler = ()=> {
@@ -36,12 +37,14 @@ const PostsContextProvider = props => {
           });
         }
         dispatch({ type: "SET_POSTS", posts: fetchedPosts });
+         
       })
       .catch((err) => {
         // dispatch(failedFetchingPosts());
       });
     }
 
+  
     return (
         <PostsContext.Provider value={{
             posts: postsData, 

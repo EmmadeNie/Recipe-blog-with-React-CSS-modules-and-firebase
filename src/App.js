@@ -1,10 +1,10 @@
 import React from "react";
 
-import Layout from "./hoc/Layout/Layout";
-import BlogOverview from "./containers/BlogOverview/BlogOverview";
+import Layout from "./hoc/Layout";
+import BlogOverview from "./pages/BlogOverview";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import NewPost from "./components/NewPost/NewPost";
-import BlogDashboard from "./containers/BlogDashboard"
+import NewPost from "./pages/NewPost";
+import BlogDashboard from "./pages/BlogDashboard"
 
 function App() {
   return (

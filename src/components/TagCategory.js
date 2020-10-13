@@ -1,13 +1,13 @@
 import React, { useEffect, useContext } from "react";
 
 //CONTAINERS
-import FullPost from "../containers/BlogOverview/FullPost";
+import FullPost from "./FullPost";
 
 //COMPONENTS
-import Aux from "../hoc/Auxiliary/Auxiliary";
-import Post from "../components/Post/Post";
+import Aux from "../hoc/Auxiliary";
+import Post from "./Post";
 import Updated from "../components/UI/Updated";
-import Modal from "../components/UI/Modal/Modal";
+import Modal from "./UI/Modal";
 import {DisplayContext} from "../context/display-context"
 import {PostsContext} from "../context/posts-context"
 
@@ -15,15 +15,8 @@ function TagCategory(props) {
   const displayContext = useContext(DisplayContext);
   const postsContext = useContext(PostsContext);
 
- function postHasTag (){
-     return 
- }
+  const relatedPosts = postsContext.posts.filter(post=>post.tags.includes(props.tag))
 
-  const relatedPosts = postsContext.posts.map(post=>post.tags)
-
-  const relatedPosts2 = postsContext.posts.filter(post=>post.tags.includes(props.tag))
-
-  console.log("lolo", relatedPosts2, props.tag, relatedPosts)
 
 
 
@@ -38,7 +31,7 @@ function TagCategory(props) {
 
   const postAdded = () => {};
 
-  let postList = postsContext.posts.map((post) => {
+  let postList = relatedPosts.map((post) => {
 
     return (
       <Post

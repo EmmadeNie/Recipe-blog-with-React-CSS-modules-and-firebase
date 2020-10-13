@@ -1,15 +1,15 @@
 import React, { useEffect, useContext } from "react";
 
-//CONTAINERS
-import FullPost from "./FullPost";
+//CONTEXT
+import {DisplayContext} from "../context/display-context"
+import {PostsContext} from "../context/posts-context"
 
 //COMPONENTS
-import Aux from "../../hoc/Auxiliary/Auxiliary";
-import Post from "../../components/Post/Post";
-import Updated from "../../components/UI/Updated";
-import Modal from "../../components/UI/Modal/Modal";
-import {DisplayContext} from "../../context/display-context"
-import {PostsContext} from "../../context/posts-context"
+import FullPost from "../components/FullPost";
+import Aux from "../hoc/Auxiliary";
+import Post from "../components/Post";
+import Updated from "../components/UI/Updated";
+import Modal from "../components/UI/Modal";
 
 function BlogOverview(props) {
   const displayContext = useContext(DisplayContext);
@@ -24,10 +24,7 @@ function BlogOverview(props) {
     displayContext.toggleEditMode(false);
   };
 
-  const postAdded = () => {};
-
   let postList = postsContext.posts.map((post) => {
-
     return (
       <Post
         style={{ textAlign: "center" }}

@@ -8,10 +8,10 @@ const input = (props) => {
     case "input":
       inputElement = (
         <input
-          className={classes.InputElement}
-          {...props.elementConfig}
+          className={props.className}
           value={props.value}
           onChange={props.changed}
+          defaultValue={props.defaultValue}
         />
       );
       break;
@@ -19,9 +19,10 @@ const input = (props) => {
       inputElement = (
         <textarea
           className={classes.InputElement}
-          {...props.elementConfig}
-          value={props.value}
+          // {...props.elementConfig}
+          // value={props.value}
           onChange={props.changed}
+             defaultValue={props.defaultValue}
         />
       );
       break;

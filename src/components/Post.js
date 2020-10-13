@@ -1,5 +1,5 @@
 import React from "react";
-import image from "../../assets/images/kipburger.jpeg";
+import image from "../assets/images/kipburger.jpeg";
 
 const post = (props) => {
   

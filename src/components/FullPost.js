@@ -1,9 +1,16 @@
 import React, { useReducer, useEffect, useState, useContext } from "react";
-import image from "../../assets/images/kipburger.jpeg";
-import Aux from "../../hoc/Auxiliary/Auxiliary";
-import Button from "../../components/UI/Button/Button";
-import Tag from "../../components/UI/tag"
-import {DisplayContext} from "../../context/display-context"
+import image from "../assets/images/kipburger.jpeg";
+
+//CONTEXT
+import {DisplayContext} from "../context/display-context"
+import {InputContext} from "../context/input-context"
+
+//COMPONENTS
+import Aux from "../hoc/Auxiliary";
+import Button from "./UI/Button";
+import Tag from "./UI/tag"
+import Input from "./UI/Input"
+
 
 const postReducer = (state, action) => {
   switch (action.type) {
@@ -18,20 +25,20 @@ const postReducer = (state, action) => {
 
 function FullPost(props) {
   const displayContext = useContext(DisplayContext);
+   const inputContext = useContext(InputContext);
 
   const [post, dispatch] = useReducer(postReducer, {});
-  const [tagMode, setTagMode] = useState(false);
   const [newTag, setNewTag] = useState("");
-  const [postDescription, setPostDescription] = useState('')
+
+  let descriptionInput = inputContext.formElementsArray.find(formElement=>formElement.id === "description")
+  let tagsInput = inputContext.formElementsArray.find(formElement=>formElement.id === "tags")
   
     const onDeletePostHandler = () => {
     displayContext.updateCurrentPost(null);
     displayContext.togglePostDeleted(true);
     displayContext.toggleEditMode(false);
-
   }
   
-
   useEffect(() => {
     fetch(`https://blog-5c8a0.firebaseio.com/posts/${props.currentId}.json`)
       .then((response) => {
@@ -41,23 +48,15 @@ function FullPost(props) {
       .catch((err) => {});
   }, []);
 
-  const onToggleTagMode = () => {
-    setTagMode((prevMode) => !prevMode);
-  };
 
   const onChangeTagHandler = (newValue) => {
     setNewTag(newValue);
   };
 
-  const onChangePostDescriptionHandler = (newValue)=>{
-    setPostDescription(newValue)
-    
-  }
- 
   const onSavePost = ()=>{
     displayContext.toggleEditMode(false);
      
-    const updatedPost = { ...post, description: postDescription };
+    const updatedPost = { ...post, description: descriptionInput.config.value };
     fetch(`https://blog-5c8a0.firebaseio.com/posts/${props.currentId}.json`, {
       method: "put",
       body: JSON.stringify(updatedPost),
@@ -70,8 +69,8 @@ function FullPost(props) {
   }
 
   const onSubmitTag = () => {
-    onToggleTagMode();
-    const tags = post.tags.concat(newTag);
+    displayContext.toggleTagMode();
+    const tags = post.tags.concat(tagsInput.config.value);
     const updatedPost = { ...post, tags: tags };
     fetch(`https://blog-5c8a0.firebaseio.com/posts/${props.currentId}.json`, {
       method: "put",
@@ -91,42 +90,48 @@ function FullPost(props) {
         onDeletePostHandler()
         return response.json();
       })
-      .then((res) => console.log(res))}
+     }
 
   let description = displayContext.editMode ? (
-    <textarea
-      className="full-post__description--edit-mode"
-      onChange={(event) => onChangePostDescriptionHandler(event.target.value)}
-      defaultValue={post.description}
-    />
+      <Input
+            key={descriptionInput.id}
+            elementType={descriptionInput.config.elementType}
+            elementConfig={descriptionInput.config.elementConfig}
+            defaultValue={post.description}
+            changed={(event)=> inputContext.changeInput(event,
+              descriptionInput.id
+            )}
+          />
   ) : (
     <p>{post.description}</p>
   );
+
+  let tags = displayContext.tagMode ? (
+            <Aux><Input
+            className="infront-image"
+            key={tagsInput.id}
+            elementType={tagsInput.config.elementType}
+            elementConfig={tagsInput.config.elementConfig}
+            changed={(event)=> inputContext.changeInput(event,
+              tagsInput.id
+            )}
+          /><Button
+                icon="FiCheck"
+                text="save tags"
+                handleOnClick={onSubmitTag}
+              /></Aux>) : (
+            <Button
+              icon="FiEdit2"
+              text="edit tags"
+              handleOnClick={displayContext.toggleTagMode}
+            />
+          )
 
   return (
     <Aux>
       <div className="full-post">
         <div className="full-post__image">
-          {tagMode ? (
-            <Aux>
-              <input
-                className="infront-image"
-                type="text"
-                onChange={(event) => onChangeTagHandler(event.target.value)}
-              />
-              <Button
-                icon="FiCheck"
-                text="save tags"
-                handleOnClick={onSubmitTag}
-              />
-            </Aux>
-          ) : (
-            <Button
-              icon="FiEdit2"
-              text="edit tags"
-              handleOnClick={onToggleTagMode}
-            />
-          )}
+          {tags}
           <img src={image} alt="kipburger" />
         </div>
         <div className="full-post__textbox">

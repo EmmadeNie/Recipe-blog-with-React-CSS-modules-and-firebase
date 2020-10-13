@@ -1,16 +1,24 @@
-import React, {useState} from "react";
-import { Redirect } from "react-router";
-import styles from "./NewPost.module.css";
-import Input from "../UI/Input/Input";
-import Button from "../UI/Button/Button";
-import Aux from "../../hoc/Auxiliary/Auxiliary";
+import React, {createContext, useState, useReducer, useContext} from 'react';
+import {DisplayContext} from "./display-context"
 
-import Spinner from "../UI/Spinner"
+export const InputContext = createContext({
+    postForm: {}, 
+postNewPost: ()=> {},
+formElementsArray: []
 
-function NewPost () {
- const [isLoading, setIsLoading] = useState(false)
- const [postAdded, setPostAdded]= useState(false)
-    const [postForm, setPostForm] = useState( {
+});
+
+const InputReducer = (currentPosts, action) => {
+  switch (action.type) {
+    case "SET_POSTS":
+      return action.posts;
+    default:
+      throw new Error("Should not get there");
+  }
+};
+
+const InputContextProvider = props => {
+    const [onPostForm, setPostForm] = useState( {
       title: {
         elementType: "input",
         elementConfig: {
@@ -158,22 +166,33 @@ function NewPost () {
       },
     },
     )
+    const displayContext = useContext(DisplayContext);
+
+    const onFormElementsArray = [];
+    for (let key in onPostForm) {
+      onFormElementsArray.push({
+        id: key,
+        config: onPostForm[key],
+      });
+    }
+
+    console.log(onFormElementsArray)
 
 const postDataHandler = (event) => {
     event.preventDefault();
-setIsLoading(true);
+displayContext.toggleIsLoading(true)
 
     const postInfo = {
-      title: postForm.title.value,
-      caption: postForm.caption.value,
-      author: postForm.author.value,
-      description: postForm.description.value,
-      prep: postForm.prep.value,
-      cook: postForm.cook.value,
-      servings: postForm.servings.value,
-      ingredients: postForm.ingredients.value,
-      utensils: postForm.utensils.value,
-      tags: [postForm.tags.value],
+      title: onPostForm.title.value,
+      caption: onPostForm.caption.value,
+      author: onPostForm.author.value,
+      description: onPostForm.description.value,
+      prep: onPostForm.prep.value,
+      cook: onPostForm.cook.value,
+      servings: onPostForm.servings.value,
+      ingredients: onPostForm.ingredients.value,
+      utensils: onPostForm.utensils.value,
+      tags: [onPostForm.tags.value],
       date: new Date(),
     };
 
@@ -183,18 +202,18 @@ setIsLoading(true);
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => {
-setIsLoading(false)
-setPostAdded(true);
+displayContext.toggleIsLoading(false)
+displayContext.togglePostAdded(true);
         return response.json();
       })
-      .then((res) => console.log(res)).catch(error=> setIsLoading(false))
+      .then((res) => console.log(res)).catch(error=> displayContext.toggleIsLoading(false))
   }
  
 
-  const inputChangedHandler = (event, inputIdentifier) => {
+  const onChangeInputHandler = (event, inputIdentifier) => {
   
     const updatedPostForm = {
-      ...postForm,
+      ...onPostForm,
     };
     const updatedFormElement = {
       ...updatedPostForm[inputIdentifier],
@@ -205,46 +224,15 @@ setPostAdded(true);
   };
 
 
-    const formElementsArray = [];
+    return (
+        <InputContext.Provider value={{
+            postForm: onPostForm, 
+            postNewPost: postDataHandler,
+            changeInput: onChangeInputHandler,
+            formElementsArray: onFormElementsArray
 
-    for (let key in postForm) {
-      formElementsArray.push({
-        id: key,
-        config: postForm[key],
-      });
-    }
+    }}>{props.children}</InputContext.Provider>
+    )
+}
 
-    // const handleType = (configType, formElementId) => {
-    //   if (configType === "file") {
-    //     return (event) => handleFile(event, formElementId);
-    //   } else {
-    //     return (event) => inputChangedHandler(event, formElementId);
-    //   }
-    // };
-    
-
-    let form = postAdded ? <Redirect to="/" />  : (<form onSubmit={postDataHandler} className={styles["ContactData"]}>
-        {formElementsArray.map((formElement) => (
-          <Input
-            key={formElement.id}
-            elementType={formElement.config.elementType}
-            elementConfig={formElement.config.elementConfig}
-            value={formElement.config.value}
-            changed={(event)=> inputChangedHandler(event,
-              formElement.id
-            )}
-          />
-        ))}
-        <Button btnType="Success">Continue</Button>
-      </form>)
-
-     if (isLoading) {
-      form = <Spinner />;
-    }
-
-    return <Aux>{form}</Aux>;
-  }
-
-
-
-export default NewPost
+export default InputContextProvider

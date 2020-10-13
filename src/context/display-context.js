@@ -8,7 +8,11 @@ export const DisplayContext = createContext({
 editMode: false,
 toggleEditMode: ()=> {},
 postDeleted: false,
-togglePostDeleted: ()=> {}
+togglePostDeleted: ()=> {},
+tagMode: false,
+toggleTagMode: ()=> {},
+postAdded: false,
+togglePostAdded: ()=> {}
 
 });
 
@@ -16,7 +20,9 @@ const DisplayContextProvider = props => {
     const [onIsLoading, setIsLoading]= useState(false);
       const [onCurrentPost, setCurrentPost] = useState("");
       const [onEditMode, setEditMode] = useState(false);
-      const [onPostDeleted, setPostDeleted] = useState(false)
+      const [onPostDeleted, setPostDeleted] = useState(false);
+      const [onPostAdded, setPostAdded]= useState(false);
+       const [onTagMode, setTagMode] = useState(false);
 
     const onToggleIsLoadingHandler = (state)=> {
         setIsLoading(state)
@@ -34,6 +40,13 @@ const DisplayContextProvider = props => {
       setPostDeleted(state)
     }
 
+       const onToggleTagModeHandler = (state)=> {
+      setTagMode(state)
+    }
+
+      const onTogglePostAddedHandler = (state)=> {
+      setPostAdded(state)
+    }
 
     return (
         <DisplayContext.Provider value={{
@@ -44,7 +57,12 @@ const DisplayContextProvider = props => {
         editMode: onEditMode,
         toggleEditMode:onToggleEditModeHandler,
         postDeleted: onPostDeleted,
-        togglePostDeleted: onTogglePostDeletedHandler
+        togglePostDeleted: onTogglePostDeletedHandler,
+        toggleTagMode: onToggleTagModeHandler,
+        tagMode: onTagMode,
+        postAdded: onPostAdded,
+        togglePostAdded: onTogglePostAddedHandler
+
     }}>{props.children}</DisplayContext.Provider>
     )
 }
