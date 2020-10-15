@@ -1,4 +1,4 @@
-import React, {createContext, useState, useReducer, useContext} from 'react';
+import React, {createContext, useReducer, useContext} from 'react';
 import {DisplayContext} from "./display-context"
 
 export const PostsContext = createContext({
@@ -18,7 +18,7 @@ const postsReducer = (currentPosts, action) => {
 
 const PostsContextProvider = props => {
     const [postsData, dispatch] = useReducer(postsReducer, []);
-    const [postTags, dispatchTags] = useReducer(postsReducer, []);
+    // const [postTags, dispatchTags] = useReducer(postsReducer, []);
      const displayContext = useContext(DisplayContext);
 
     const getPostsHandler = ()=> {

@@ -5,7 +5,7 @@ const button = (props) => {
   return (
     <button className="btn-edit">
     <FiTag />
-      <a href="#"> {props.text}   </a>
+      <a href="/home"> {props.text}   </a>
         
     </button>
   );

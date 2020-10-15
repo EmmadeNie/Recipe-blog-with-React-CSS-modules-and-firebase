@@ -18,7 +18,7 @@ const input = (props) => {
     case "textarea":
       inputElement = (
         <textarea
-          className={classes.InputElement}
+          className={props.className}
           // {...props.elementConfig}
           // value={props.value}
           onChange={props.changed}

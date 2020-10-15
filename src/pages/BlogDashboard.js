@@ -1,14 +1,15 @@
 import React, {useContext, useEffect} from 'react'
 
 //CONTEXT
-import {DisplayContext} from "../context/display-context"
 import {PostsContext} from "../context/posts-context"
 
-//COMPONENTS
-import TagCategory from "../components/TagCategory"
+//PAGES
+import BlogOverview from "./BlogOverview"
+
+//HOC
+import Layout from "../hoc/Layout"
 
 function BlogDashboard(props) {
-  const displayContext = useContext(DisplayContext);
   const postsContext = useContext(PostsContext);
 
   useEffect(()=>{postsContext.getPosts()},[])
@@ -16,8 +17,10 @@ function BlogDashboard(props) {
 
     return (
         <div>
-            <TagCategory tag="burger"/>
-            <TagCategory tag="pompoen"/>
+        <Layout>
+            <BlogOverview tag="burger"/>
+         <BlogOverview tag="pompoen"/>
+          <BlogOverview /></Layout>
         </div>
     )
 }

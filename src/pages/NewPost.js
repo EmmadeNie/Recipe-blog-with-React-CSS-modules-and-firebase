@@ -1,45 +1,105 @@
-import React, {useState, useContext} from "react";
-import { Redirect } from "react-router";
-
-//CONTEXT
-import {InputContext} from "../context/input-context"
-import {DisplayContext} from "../context/display-context"
-
-//STYLING
-import styles from "./NewPost.module.css";
+import React, {useState} from 'react'
+import useForm from "../context/useForm"
 
 //COMPONENTS
-import Input from "../components/UI/Input";
-import Button from "../components/UI/Button";
-import Aux from "../hoc/Auxiliary";
-import Spinner from "../components/UI/Spinner"
+import Button from "../components/UI/Button"
 
-function NewPost () {
-   const inputContext = useContext(InputContext);
-      const displayContext = useContext(DisplayContext);
+function NewPost(props) {
+    const {handleChange, values, handleSubmit} = useForm()
 
-    let form = displayContext.postAdded ? <Redirect to="/" />  : (<form onSubmit={inputContext.postNewPost} className={styles["ContactData"]}>
-        {inputContext.formElementsArray.map((formElement) => (
-          <Input
-            key={formElement.id}
-            elementType={formElement.config.elementType}
-            elementConfig={formElement.config.elementConfig}
-            value={formElement.config.value}
-            changed={(event)=> inputContext.changeInput(event,
-              formElement.id
-            )}
-          />
-        ))}
-        <Button btnType="Success">Continue</Button>
-      </form>)
-
-     if (displayContext.isLoading) {
-      form = <Spinner />;
-    }
-
-    return <Aux>{form}</Aux>;
-  }
-
-
+    console.log(values)
+  
+    return (
+        <div className="container">
+        <div className="form-container">
+        <form onSubmit={handleSubmit}>
+           <input
+           type="text"
+           name="title"
+           placeholder="title"
+          className="input"
+          value={values.title}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="author"
+           placeholder="author"
+          className="input"
+          value={values.author}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="caption"
+           placeholder="caption"
+          className="input"
+          value={values.caption}
+          onChange={handleChange}
+        /> <textarea
+           type="text"
+           name="description"
+           placeholder="description"
+          className="input"
+          value={values.description}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="prep"
+           placeholder="prep"
+          className="input"
+          value={values.prep}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="wait"
+           placeholder="wait"
+          className="input"
+          value={values.wait}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="servings"
+           placeholder="servings"
+          className="input"
+          value={values.servings}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="utensils"
+           placeholder="utensils"
+          className="input"
+          value={values.utensils}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="tip"
+           placeholder="tip"
+          className="input"
+          value={values.tip}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="ingredients"
+           placeholder="ingredients"
+          className="input"
+          value={values.ingredients}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="steps"
+           placeholder="steps"
+          className="input"
+          value={values.steps}
+          onChange={handleChange}
+        /> <input
+           type="text"
+           name="tags"
+           placeholder="tags"
+          className="input"
+          value={values.tags}
+          onChange={handleChange}
+        /><Button btnType="Success">Continue</Button></form></div>
+        </div>
+    )
+}
 
 export default NewPost

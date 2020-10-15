@@ -1,4 +1,4 @@
-import React, {createContext, useState, useReducer, useContext} from 'react';
+import React, {createContext, useState, useContext} from 'react';
 import {DisplayContext} from "./display-context"
 
 export const InputContext = createContext({
@@ -7,15 +7,6 @@ postNewPost: ()=> {},
 formElementsArray: []
 
 });
-
-const InputReducer = (currentPosts, action) => {
-  switch (action.type) {
-    case "SET_POSTS":
-      return action.posts;
-    default:
-      throw new Error("Should not get there");
-  }
-};
 
 const InputContextProvider = props => {
     const [onPostForm, setPostForm] = useState( {
@@ -175,8 +166,6 @@ const InputContextProvider = props => {
         config: onPostForm[key],
       });
     }
-
-    console.log(onFormElementsArray)
 
 const postDataHandler = (event) => {
     event.preventDefault();

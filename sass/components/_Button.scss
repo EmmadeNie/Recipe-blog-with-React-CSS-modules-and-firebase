@@ -24,6 +24,11 @@
   }
 }
 
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .Button {
   background-color: transparent;
   height: 16px;
