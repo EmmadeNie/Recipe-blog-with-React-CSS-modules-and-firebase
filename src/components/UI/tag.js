@@ -1,14 +1,10 @@
 import React from "react";
 import { FiTag } from "react-icons/fi";
 
-const button = (props) => {
+const Tag = (props) => {
   return (
-    <button className="btn-edit">
-    <FiTag />
-      <a href="/home"> {props.text}   </a>
-        
-    </button>
+      <a className="tag-item" href="/home"> <FiTag /> {props.text}   </a>
   );
 };
 
-export default button;
+export default Tag;

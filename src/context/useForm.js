@@ -25,35 +25,14 @@ const useForm = ()=> {
    const  handleChange = (event) => { 
        const {name, value} = event.target
 setValues({...values, [name]:value})
-    }
-
-    console.log("post", post)
-    
-    console.log("values", values)
+   }
     
         const updateArray = (newItem) => {
-    displayContext.toggleTagMode();
-    console.log("newItem", newItem)
+    displayContext.toggleTagMode(false);
     const newArray = values.tags.concat(newItem);
     console.log("newArray", newArray)
     setValues({...values, tags: newArray})
-    handleUpdate()
   };
-
-//         const onUpdateArray = (newTag) => {
-//     displayContext.toggleTagMode();
-//     const tags = values.tags.concat(newTag);
-//     const updatedPost = { ...values, tags: tags };
-//     fetch(`https://blog-5c8a0.firebaseio.com/posts/${displayContext.currentPost}.json`, {
-//       method: "put",
-//       body: JSON.stringify(updatedPost),
-//       headers: { "Content-Type": "application/json" },
-//     })
-//       .then((response) => {
-//         return response.json();
-//       })
-//   };
-
 
     const handleSubmit = event=> {
          event.preventDefault()
@@ -89,9 +68,7 @@ displayContext.togglePostAdded(true);
 
     }
 
-    const handleUpdate = ()=> {
-        console.log("lala", values)
-            const updatedPost = { ...values };
+    const updatePost = (updatedPost)=> {
     fetch(`https://blog-5c8a0.firebaseio.com/posts/${displayContext.currentPost}.json`, {
       method: "put",
       body: JSON.stringify(updatedPost),
@@ -102,15 +79,6 @@ displayContext.togglePostAdded(true);
       })
     }
 
-    const getPost = ()=> {
-         fetch(`https://blog-5c8a0.firebaseio.com/posts/${displayContext.currentPost}.json`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((res) => {setPost(res); setValues(res)})
-      .catch((err) => {});
-    }
-
     const deletePost = ()=> { fetch(`https://blog-5c8a0.firebaseio.com/posts/${displayContext.currentPost}.json`, {
       method: "delete",
     })
@@ -119,7 +87,7 @@ displayContext.togglePostAdded(true);
       }).then(displayContext.togglePostDeleted(true))
      }
 
-    return {handleChange, values, handleSubmit, getPost, post, handleUpdate, deletePost, updateArray}
+    return {handleChange, values, handleSubmit, post, updatePost, deletePost, updateArray}
 }
 
 export default useForm

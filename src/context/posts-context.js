@@ -1,5 +1,8 @@
 import React, {createContext, useReducer, useContext} from 'react';
+
+//CONTEXT
 import {DisplayContext} from "./display-context"
+
 
 export const PostsContext = createContext({
     posts: [], 
@@ -18,8 +21,7 @@ const postsReducer = (currentPosts, action) => {
 
 const PostsContextProvider = props => {
     const [postsData, dispatch] = useReducer(postsReducer, []);
-    // const [postTags, dispatchTags] = useReducer(postsReducer, []);
-     const displayContext = useContext(DisplayContext);
+    const displayContext = useContext(DisplayContext)
 
     const getPostsHandler = ()=> {
          displayContext.toggleIsLoading(true);

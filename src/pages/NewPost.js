@@ -1,13 +1,11 @@
-import React, {useState} from 'react'
+import React from 'react'
 import useForm from "../context/useForm"
 
 //COMPONENTS
 import Button from "../components/UI/Button"
 
-function NewPost(props) {
+function NewPost() {
     const {handleChange, values, handleSubmit} = useForm()
-
-    console.log(values)
   
     return (
         <div className="container">

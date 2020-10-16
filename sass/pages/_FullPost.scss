@@ -24,21 +24,48 @@
     }
     & button {
       position: absolute;
-      z-index: 2;
+      z-index: 5;
       right: 1rem;
       bottom: 1rem;
     }
   }
 
+  &__tags-input {
+    position: absolute;
+    z-index: 5;
+    right: 1rem;
+    bottom: 4rem;
+  }
+
   &-description--edit-mode {
     min-width: 300px;
-    background-color: pink;
   }
 
   &__textbox {
+    position: relative;
     width: 500px;
-    padding: 32px;
-    float: right;
+    z-index: -1;
+    padding-left: 4rem;
+    padding-top: 2rem;
+
+    &--buttons-container {
+      display: inline-block;
+      width: 30px;
+      margin: 10px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      max-width: 90%;
+    }
+
+    &-tabs {
+      display: flex;
+      flex-direction: row;
+      transform: rotate(90deg);
+      left: 0;
+      top: 0;
+    }
 
     & h1 {
       font-size: 3.2rem;

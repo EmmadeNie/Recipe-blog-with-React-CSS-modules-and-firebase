@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import DisplayContextProvider from "./context/display-context"
 import PostsContextProvider from "./context/posts-context"
-import InputContextProvider from "./context/input-context"
+import DisplayContextProvider from "./context/display-context"
 
 //STYLING
 import {ThemeProvider} from "@material-ui/core/styles"
@@ -16,10 +15,9 @@ import App from "./App";
 ReactDOM.render(
   <React.StrictMode>
   <ThemeProvider theme={theme}>
-<DisplayContextProvider>
-<InputContextProvider>
+  <DisplayContextProvider>
 <PostsContextProvider>
-      <App /></PostsContextProvider></InputContextProvider>
+      <App /></PostsContextProvider>
 </DisplayContextProvider></ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

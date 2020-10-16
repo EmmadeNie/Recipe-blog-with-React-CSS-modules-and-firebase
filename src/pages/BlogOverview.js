@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from "react";
 
 //CONTEXT
-import {DisplayContext} from "../context/display-context"
 import {PostsContext} from "../context/posts-context"
+import { DisplayContext } from "../context/display-context"
 
 //COMPONENTS
 import FullPost from "../components/FullPost/FullPost";
@@ -12,7 +12,7 @@ import Updated from "../components/UI/Updated";
 import Modal from "../components/UI/Modal"
 
 //STYLING
-import {Button, Typography} from "@material-ui/core"
+import {Button} from "@material-ui/core"
 import {makeStyles} from "@material-ui/core/styles"
 
 //STYLING FUNCTIONS
@@ -29,9 +29,8 @@ const useStyles = makeStyles({
 
 function BlogOverview(props) {
   const classes = useStyles();
-  const displayContext = useContext(DisplayContext);
   const postsContext = useContext(PostsContext);
-
+    const displayContext = useContext(DisplayContext);
   const relatedPosts = props.tag ? postsContext.posts.filter(post=>post.tags.includes(props.tag)) : postsContext.posts
 
   useEffect(() => {
@@ -49,18 +48,14 @@ function BlogOverview(props) {
         style={{ textAlign: "center" }}
         post={post}
         key={post.id}
-        viewPostHandler={() => displayContext.updateCurrentPost(post.id)}
+        viewPostHandler={()=>displayContext.updateCurrentPost(post.id)}
       />
     );
   });
 
   let currentFullPost = displayContext.currentPost && (
     <Modal removeBackdrop={onRemoveBackdrop}>
-      <FullPost
-        currentId={displayContext.currentPost}
-        editModeHandler={displayContext.toggleEditMode}
-        editMode={displayContext.editMode}
-      />
+      <FullPost />
     </Modal>
   );
 
