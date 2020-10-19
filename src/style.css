@@ -85,6 +85,16 @@ body {
   flex-wrap: wrap;
   max-width: 90%; }
 
+.tag-container {
+  position: relative; }
+
+.delete-tag {
+  position: absolute;
+  right: 1rem;
+  top: 1rem; }
+  .delete-tag:hover {
+    transform: scale(1.5) translateY(-1px); }
+
 .tag-item {
   display: block;
   background-color: black;
@@ -97,6 +107,7 @@ body {
   top: 0rem;
   padding: 10px;
   margin: 5px;
+  padding-right: 20px;
   border-radius: 5px; }
   .tag-item:hover {
     opacity: 0.7;

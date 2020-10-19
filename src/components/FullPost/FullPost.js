@@ -4,6 +4,7 @@ import image from "../../assets/images/kipburger.jpeg";
 //CONTEXT
 import useForm from "../../context/useForm"
 import { DisplayContext } from "../../context/display-context"
+import { PostsContext } from "../../context/posts-context"
 
 //COMPONENTS
 import Aux from "../../hoc/Auxiliary";
@@ -13,14 +14,21 @@ import Tags from "./Tags"
 function FullPost() {
    const [post, setPost] = useState({})
    const displayContext = useContext(DisplayContext)
+   const postsContext = useContext(PostsContext)
    const {handleChange, updatePost, deletePost} = useForm()
   
    useEffect(() => {
         fetch(`https://blog-5c8a0.firebaseio.com/posts/${displayContext.currentPost}.json`)
       .then((response) => {
         return response.json();
-      })
-      .then((res) => {setPost(res)})
+      }) .then((res) => {
+        const fetchedTags = [];
+        for (let key in res.tags) {
+          fetchedTags.push({
+            ...res.tags[key],
+            id: key
+          })
+        } setPost({...res, tags: fetchedTags})})
       .catch((err) => {});
    displayContext.toggleIsLoading(true)
   }, []);
@@ -34,14 +42,6 @@ function FullPost() {
   const onSavePost = (event)=>{
     displayContext.toggleEditMode(false);
     updatePost(event)
-  }
-
-    const onSaveTagsHandler = (newTag)=> {
-      displayContext.toggleTagMode(false)
-      const newArray = post.tags.concat(newTag);
-      const updatedPost = {...post, tags:newArray};
- updatePost(updatedPost)
-
   }
 
   let description = displayContext.editMode ? (
@@ -69,12 +69,12 @@ function FullPost() {
   ) : (
     <h1>{post.title}</h1>
   );
-        
+    
   return (
     <Aux>
       <div className="full-post">
         <div className="full-post__image">
-          <Tags tags={post.tags} onSaveTags={onSaveTagsHandler}/>
+          <Tags tags={post.tags} />
           <img src={image} alt="kipburger" />
         </div>
         <div className="full-post__textbox">

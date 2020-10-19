@@ -50,7 +50,6 @@ setValues({...values, [name]:value})
       steps: [values.steps],
       utensils: [values.utensils],
       tip: values.tip,
-      tags: [values.tags],
       date: new Date(),
     };
 

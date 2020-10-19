@@ -2,6 +2,7 @@ import React from "react";
 import image from "../assets/images/kipburger.jpeg";
 
 const post = (props) => {
+ 
   
   return (
     <article className="post" onClick={props.viewPostHandler}>
@@ -13,7 +14,7 @@ const post = (props) => {
             <div className="post__textbox--author">{props.post.author}</div>
             <div className="post__textbox--content">{props.post.sequence}</div>
             <div className="post__textbox--content">{props.post.date}</div>
-            <div className="post__textbox--content">{props.post.tags.map(tag=>`#${tag} `)}</div>
+            <div className="post__textbox--content">{ props.post.tags && props.post.tags.map(tag=>`#${tag.tagName} `)}</div>
           </div>
         </div>
       </div>

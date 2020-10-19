@@ -32,7 +32,7 @@ function BlogOverview(props) {
   const postsContext = useContext(PostsContext);
     const displayContext = useContext(DisplayContext);
   const relatedPosts = props.tag ? postsContext.posts.filter(post=>post.tags.includes(props.tag)) : postsContext.posts
-
+  console.log(relatedPosts)
   useEffect(() => {
     postsContext.getPosts()
   }, [displayContext.postDeleted]);

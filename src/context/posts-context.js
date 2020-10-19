@@ -33,13 +33,21 @@ const PostsContextProvider = props => {
       .then((res) => {
         const fetchedPosts = [];
         for (let key in res) {
+          const fetchedTags = []; 
+          for (let keyTag in res[key].tags){
+             fetchedTags.push({
+            ...res[key].tags[keyTag],
+            id: keyTag,
+          })
+          };
           fetchedPosts.push({
             ...res[key],
             id: key,
-          });
+            tags: fetchedTags
+          }) 
         }
         dispatch({ type: "SET_POSTS", posts: fetchedPosts });
-         
+        
       })
       .catch((err) => {
         // dispatch(failedFetchingPosts());

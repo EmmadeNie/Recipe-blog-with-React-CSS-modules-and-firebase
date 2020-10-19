@@ -21,7 +21,7 @@ switch (props.icon) {
     break;
 }
 
-let className = props.disabled ? "btn-edit btn-disabled" : " btn-edit"
+let className = props.disabled ? "btn-edit btn-disabled" : "btn-edit"
 
 
 
